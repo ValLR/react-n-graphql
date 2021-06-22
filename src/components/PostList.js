@@ -1,10 +1,11 @@
 import React from 'react';
-import { FlatList, StyleSheet, Text, View } from 'react-native';
+import { FlatList, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { useQuery } from '@apollo/client';
-import { GET_POSTS } from '../Apollo/Queries/PostQueries';
+import { GET_POSTS } from '../apollo/queries/postQueries';
 
-export default function PostList() {
-  const { loading, data, refetch } = useQuery(GET_POSTS,
+export default function PostList(props) {
+  const { navigation } = props;
+  const { loading, data } = useQuery(GET_POSTS,
     {
       variables: {
         options: {
@@ -22,10 +23,11 @@ export default function PostList() {
       {!loading && data && data.posts && (
         <FlatList
           data={data.posts.data}
+          keyExtractor={(item) => `${item.id}`}
           renderItem={({item}) => (
-            <Text style={styles.item} key={item.id}>
-              {item.title}
-            </Text>
+            <TouchableOpacity onPress={() => navigation.navigate('Detail', { id: item.id })}>
+              <Text style={styles.item}>{item.title}</Text>
+            </TouchableOpacity>
           )}
         />
       )}
