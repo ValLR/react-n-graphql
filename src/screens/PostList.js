@@ -11,7 +11,7 @@ export default function PostList(props) {
         options: {
           paginate: {
             "page": 1,
-            "limit": 5
+            "limit": 10
           }
         }
       }
